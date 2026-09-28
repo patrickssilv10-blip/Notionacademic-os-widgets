@@ -1,0 +1,87 @@
+/*
+ * Academic OS Widgets — estilos base compartidos
+ * Reutilizado por: reloj, pomodoro, progreso del tiempo.
+ *
+ * Tema:
+ *   - Por defecto sigue prefers-color-scheme del sistema.
+ *   - Se puede forzar con ?theme=light | ?theme=dark (atributo data-theme en <html>).
+ * Fondo:
+ *   - Transparente por defecto para integrarse con Notion.
+ *   - ?bg=solid usa el color de fondo de Notion del tema activo.
+ */
+
+:root {
+  /* Paleta de Notion — modo claro */
+  --aos-bg: #ffffff;
+  --aos-fg: #37352f;
+  --aos-muted: #787774;
+  --aos-faint: #d3d1cb;
+  --aos-accent: #d9730d;          /* naranja Notion */
+  --aos-accent-soft: rgba(217, 115, 13, 0.14);
+
+  --aos-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+              "Apple Color Emoji", Arial, sans-serif;
+  --aos-radius: 10px;
+  color-scheme: light;
+}
+
+/* Paleta de Notion — modo oscuro (sistema) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --aos-bg: #191919;
+    --aos-fg: #e6e6e4;
+    --aos-muted: #9b9b9b;
+    --aos-faint: #3f3f3f;
+    --aos-accent: #e4924b;
+    --aos-accent-soft: rgba(228, 146, 75, 0.18);
+    color-scheme: dark;
+  }
+}
+
+/* Modo oscuro forzado (?theme=dark) */
+:root[data-theme="dark"] {
+  --aos-bg: #191919;
+  --aos-fg: #e6e6e4;
+  --aos-muted: #9b9b9b;
+  --aos-faint: #3f3f3f;
+  --aos-accent: #e4924b;
+  --aos-accent-soft: rgba(228, 146, 75, 0.18);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;              /* un embed nunca debe mostrar barras de desplazamiento */
+}
+
+:root[data-bg="solid"] body { background: var(--aos-bg); }
+
+body {
+  font-family: var(--aos-font);
+  color: var(--aos-fg);
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.aos-widget {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
+.aos-tabular { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
