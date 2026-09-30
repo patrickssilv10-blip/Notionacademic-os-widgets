@@ -7,7 +7,7 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
 |---|---|---|
 | Reloj | `widgets/clock/` | ✅ Listo |
 | Pomodoro | `widgets/pomodoro/` | ✅ Listo |
-| Progreso del tiempo | `widgets/progress/` | Pendiente |
+| Progreso del tiempo | `widgets/time-progress/` | ✅ Listo |
 
 ## Estructura
 
@@ -23,10 +23,14 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
     │   ├── index.html
     │   ├── clock.css
     │   └── clock.js
-    └── pomodoro/
+    ├── pomodoro/
+    │   ├── index.html
+    │   ├── pomodoro.css
+    │   └── pomodoro.js
+    └── time-progress/
         ├── index.html
-        ├── pomodoro.css
-        └── pomodoro.js
+        ├── time-progress.css
+        └── time-progress.js
 ```
 
 Cada widget nuevo es una carpeta en `widgets/` que reutiliza `shared/`.
@@ -37,7 +41,7 @@ Los widgets usan módulos de JavaScript, así que necesitan un servidor (no bast
 
 ```bash
 python3 -m http.server 8000
-# Abrir http://localhost:8000/widgets/clock/ o http://localhost:8000/widgets/pomodoro/
+# Abrir http://localhost:8000/widgets/clock/, /widgets/pomodoro/ o /widgets/time-progress/
 ```
 
 ## Publicar con GitHub Pages
@@ -104,4 +108,31 @@ Ejemplo — sesiones de 50/10 en modo oscuro:
 
 ```
 https://<usuario>.github.io/<repositorio>/widgets/pomodoro/?work=50&short=10&theme=dark
+```
+
+## Progreso del tiempo
+
+Cuánto ha transcurrido del **día**, la **semana** (de lunes a lunes), el **mes** y el **año**,
+con barra, porcentaje y, si cabe, el tiempo restante.
+
+- El porcentaje se calcula en cada actualización con la hora actual y los límites reales
+  del periodo en hora local: tiene en cuenta los días de 23/25 h por cambio de hora,
+  los meses de 28–31 días y los años bisiestos.
+- Se redondea hacia abajo (nunca muestra 100 % antes de tiempo) y siempre está entre 0 y 100 %.
+- Tras perder el foco, suspender o recargar, se recalcula al instante desde la hora actual.
+- Se adapta al tamaño del embed: en bloques pequeños simplifica (una línea por periodo,
+  sin decimales, y si no caben todos muestra los primeros).
+
+URL: `https://<usuario>.github.io/<repositorio>/widgets/time-progress/`
+
+| Parámetro | Valores | Por defecto |
+|---|---|---|
+| `theme` | `auto` · `light` · `dark` | `auto` (sigue al sistema) |
+| `bg` | `transparent` · `solid` | `transparent` |
+| `periods` | lista separada por comas de `day` · `week` · `month` · `year` | todos |
+
+Ejemplo — solo semana y año:
+
+```
+https://<usuario>.github.io/<repositorio>/widgets/time-progress/?periods=week,year
 ```
