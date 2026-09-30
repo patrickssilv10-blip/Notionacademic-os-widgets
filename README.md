@@ -6,7 +6,7 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
 | Widget | Ruta | Estado |
 |---|---|---|
 | Reloj | `widgets/clock/` | ✅ Listo |
-| Pomodoro | `widgets/pomodoro/` | Pendiente |
+| Pomodoro | `widgets/pomodoro/` | ✅ Listo |
 | Progreso del tiempo | `widgets/progress/` | Pendiente |
 
 ## Estructura
@@ -19,10 +19,14 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
 │   ├── base.css          # Paleta de Notion (claro/oscuro), fondo transparente, reset
 │   └── widget.js         # Opciones por URL, tema y temporizador sin desfase
 └── widgets/
-    └── clock/
+    ├── clock/
+    │   ├── index.html
+    │   ├── clock.css
+    │   └── clock.js
+    └── pomodoro/
         ├── index.html
-        ├── clock.css
-        └── clock.js
+        ├── pomodoro.css
+        └── pomodoro.js
 ```
 
 Cada widget nuevo es una carpeta en `widgets/` que reutiliza `shared/`.
@@ -33,7 +37,7 @@ Los widgets usan módulos de JavaScript, así que necesitan un servidor (no bast
 
 ```bash
 python3 -m http.server 8000
-# Abrir http://localhost:8000/widgets/clock/
+# Abrir http://localhost:8000/widgets/clock/ o http://localhost:8000/widgets/pomodoro/
 ```
 
 ## Publicar con GitHub Pages
@@ -67,3 +71,37 @@ https://<usuario>.github.io/<repositorio>/widgets/clock/?theme=dark
 
 > Un embed no puede leer el tema de Notion; solo el del sistema operativo.
 > Si ambos no coinciden, usar `?theme=dark` o `?theme=light`.
+
+## Pomodoro
+
+Trabajo 25 min · descanso corto 5 min · descanso largo 15 min tras 4 ciclos.
+Botones: **Iniciar / Pausar / Reanudar** (un mismo botón), **Reiniciar** y **Saltar fase**.
+
+- La cuenta atrás se calcula desde la hora de fin real: es exacta aunque la pestaña
+  pase a segundo plano, el equipo se suspenda o se recargue la página.
+- El estado se guarda en `localStorage`: una recarga no pierde la sesión, y dos embeds
+  con la misma configuración (p. ej., en páginas distintas de Notion) comparten sesión.
+- Al terminar una fase pasa sola a la siguiente, con aviso visual y señal sonora
+  (el navegador solo permite sonido después de haber pulsado algún botón del widget).
+- Se adapta al tamaño del embed: pensado para la columna lateral; en bloques muy bajos
+  cambia a una versión compacta, y en bloques anchos y bajos a una horizontal.
+
+URL: `https://<usuario>.github.io/<repositorio>/widgets/pomodoro/`
+
+| Parámetro | Valores | Por defecto |
+|---|---|---|
+| `theme` | `auto` · `light` · `dark` | `auto` (sigue al sistema) |
+| `bg` | `transparent` · `solid` | `transparent` |
+| `layout` | `auto` · `stack` · `row` · `compact` | `auto` |
+| `work` | minutos de trabajo (admite decimales) | `25` |
+| `short` | minutos de descanso corto | `5` |
+| `long` | minutos de descanso largo | `15` |
+| `cycles` | ciclos de trabajo antes del descanso largo (1–12) | `4` |
+| `auto` | `1` (la fase siguiente arranca sola) · `0` (queda en espera) | `1` |
+| `sound` | `1` · `0` | `1` |
+
+Ejemplo — sesiones de 50/10 en modo oscuro:
+
+```
+https://<usuario>.github.io/<repositorio>/widgets/pomodoro/?work=50&short=10&theme=dark
+```

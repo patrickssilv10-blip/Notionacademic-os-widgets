@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:,">
+  <title>Pomodoro · Academic OS</title>
+  <link rel="stylesheet" href="../../shared/base.css">
+  <link rel="stylesheet" href="pomodoro.css">
+</head>
+<body>
+  <main class="aos-widget pomo" data-layout="stack" data-phase="work" data-status="idle">
+    <div class="pomo__meta">
+      <span class="pomo__phase" aria-live="polite">Trabajo</span>
+      <span class="pomo__cycle">
+        <span class="pomo__dots" aria-hidden="true"></span>
+        <span class="pomo__cycle-text aos-tabular">1/4</span>
+      </span>
+    </div>
+
+    <div class="pomo__dial">
+      <svg class="pomo__ring" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="pomo__track" cx="50" cy="50" r="45" pathLength="100"/>
+        <circle class="pomo__arc"   cx="50" cy="50" r="45" pathLength="100"/>
+      </svg>
+      <div class="pomo__time aos-tabular" role="timer" aria-live="off">25:00</div>
+    </div>
+
+    <div class="pomo__bar" aria-hidden="true"><span class="pomo__bar-fill"></span></div>
+
+    <div class="pomo__controls">
+      <button type="button" class="pomo__btn pomo__btn--icon" data-action="reset"
+              aria-label="Reiniciar" title="Reiniciar">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      </button>
+      <button type="button" class="pomo__btn pomo__btn--primary" data-action="toggle">Iniciar</button>
+      <button type="button" class="pomo__btn pomo__btn--icon" data-action="skip"
+              aria-label="Saltar fase" title="Saltar fase">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/></svg>
+      </button>
+    </div>
+  </main>
+  <noscript>Este widget necesita JavaScript.</noscript>
+  <script type="module" src="pomodoro.js"></script>
+</body>
+</html>
