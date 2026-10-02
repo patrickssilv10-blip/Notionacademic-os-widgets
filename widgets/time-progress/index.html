@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:,">
+  <title>Progreso del tiempo · Academic OS</title>
+  <link rel="stylesheet" href="../../shared/base.css">
+  <link rel="stylesheet" href="time-progress.css">
+</head>
+<body>
+  <main class="aos-widget tp" aria-label="Progreso del tiempo">
+    <ul class="tp__list">
+      <li class="tp__item" data-period="day">
+        <span class="tp__label" aria-hidden="true">Día</span>
+        <span class="tp__detail" aria-hidden="true"></span>
+        <span class="tp__left" aria-hidden="true"></span>
+        <span class="tp__pct aos-tabular" aria-hidden="true"><span class="tp__int">–</span><span class="tp__dec"></span>&nbsp;%</span>
+        <span class="tp__bar" role="progressbar" aria-label="Día" aria-valuemin="0" aria-valuemax="100"><span class="tp__fill"></span></span>
+      </li>
+      <li class="tp__item" data-period="week">
+        <span class="tp__label" aria-hidden="true">Semana</span>
+        <span class="tp__detail" aria-hidden="true"></span>
+        <span class="tp__left" aria-hidden="true"></span>
+        <span class="tp__pct aos-tabular" aria-hidden="true"><span class="tp__int">–</span><span class="tp__dec"></span>&nbsp;%</span>
+        <span class="tp__bar" role="progressbar" aria-label="Semana" aria-valuemin="0" aria-valuemax="100"><span class="tp__fill"></span></span>
+      </li>
+      <li class="tp__item" data-period="month">
+        <span class="tp__label" aria-hidden="true">Mes</span>
+        <span class="tp__detail" aria-hidden="true"></span>
+        <span class="tp__left" aria-hidden="true"></span>
+        <span class="tp__pct aos-tabular" aria-hidden="true"><span class="tp__int">–</span><span class="tp__dec"></span>&nbsp;%</span>
+        <span class="tp__bar" role="progressbar" aria-label="Mes" aria-valuemin="0" aria-valuemax="100"><span class="tp__fill"></span></span>
+      </li>
+      <li class="tp__item" data-period="year">
+        <span class="tp__label" aria-hidden="true">Año</span>
+        <span class="tp__detail" aria-hidden="true"></span>
+        <span class="tp__left" aria-hidden="true"></span>
+        <span class="tp__pct aos-tabular" aria-hidden="true"><span class="tp__int">–</span><span class="tp__dec"></span>&nbsp;%</span>
+        <span class="tp__bar" role="progressbar" aria-label="Año" aria-valuemin="0" aria-valuemax="100"><span class="tp__fill"></span></span>
+      </li>
+    </ul>
+  </main>
+  <noscript>Este widget necesita JavaScript.</noscript>
+  <script type="module" src="time-progress.js"></script>
+</body>
+</html>

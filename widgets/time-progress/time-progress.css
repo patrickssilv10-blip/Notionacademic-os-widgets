@@ -1,0 +1,158 @@
+/*
+ * Progreso del tiempo — estilos
+ * Pensado para la columna lateral de Notion. La disposición depende solo del
+ * tamaño del embed y la resuelve el CSS (media queries): no hay lógica de
+ * maquetación en JavaScript que pueda quedarse desfasada al redimensionar.
+ *
+ *   Por defecto       → dos líneas por periodo: nombre · detalle · restante · %, y la barra
+ *   Altura < 150px    → una línea por periodo: nombre · barra · % (columnas alineadas)
+ *   Altura < 80px     → solo Día y Semana; altura < 44px → solo Día
+ *   Anchura < 190px   → porcentajes sin decimales
+ */
+
+.tp {
+  --gap: clamp(8px, 4vh, 16px);
+  --bar-h: 6px;
+  /* Texto secundario: en claro, un gris algo más oscuro que el compartido (4,48:1)
+     para superar 4,5:1 sobre blanco con texto pequeño; en oscuro se usa el compartido */
+  --tp-muted: #73726e;
+  font-size: 12.5px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tp { --tp-muted: var(--aos-muted); }
+}
+:root[data-theme="dark"] .tp { --tp-muted: var(--aos-muted); }
+
+.tp__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  width: 100%;
+  max-width: 520px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Periodo en dos líneas ---------- */
+.tp__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "label detail left pct"
+    "bar   bar    bar  bar";
+  align-items: baseline;
+  column-gap: 6px;
+  row-gap: 5px;
+  min-width: 0;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.tp__label,
+.tp__detail,
+.tp__left {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tp__label { grid-area: label; font-weight: 600; }
+
+.tp__detail {
+  grid-area: detail;
+  display: none;
+  color: var(--tp-muted);
+}
+
+.tp__left {
+  grid-area: left;
+  display: none;
+  color: var(--tp-muted);
+  font-size: 0.92em;
+}
+
+.tp__pct {
+  grid-area: pct;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* ---------- Barra ---------- */
+.tp__bar {
+  grid-area: bar;
+  align-self: center;
+  display: block;
+  height: var(--bar-h);
+  border-radius: 999px;
+  background: var(--aos-faint);
+  background: color-mix(in srgb, var(--aos-faint) 65%, transparent);
+  overflow: hidden;
+}
+
+.tp__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--aos-accent);
+  transition: width 0.6s ease;
+}
+
+/* ---------- Información extra según la anchura ---------- */
+@media (min-width: 230px) {
+  .tp__left { display: block; }
+}
+@media (min-width: 330px) {
+  .tp__detail { display: block; }
+}
+@media (max-width: 189.98px) {
+  .tp__dec { display: none; }
+}
+@media (min-width: 340px) and (min-height: 260px) {
+  .tp { font-size: 13.5px; --bar-h: 7px; }
+}
+
+/* ---------- Embeds bajos: una línea por periodo ---------- */
+@media (max-height: 149.98px) {
+  .tp {
+    --gap: clamp(3px, 2.2vh, 8px);
+    --bar-h: 5px;
+    font-size: 11.5px;
+  }
+
+  /* Columnas comunes a todos los periodos: nombre · barra · % */
+  .tp__list {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    column-gap: 8px;
+    row-gap: var(--gap);
+  }
+
+  .tp__item {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    grid-template-areas: none;
+    align-items: center;
+  }
+
+  .tp__label  { grid-column: 1;  grid-row: 1; }
+  .tp__bar    { grid-column: 2;  grid-row: 1; }
+  .tp__pct    { grid-column: -2; grid-row: 1; }
+  .tp__detail,
+  .tp__left   { display: none; }
+}
+
+/* Bajos y anchos: hay sitio para el tiempo restante */
+@media (max-height: 149.98px) and (min-width: 400px) {
+  .tp__list { grid-template-columns: max-content minmax(0, 1fr) max-content max-content; }
+  .tp__left { display: block; grid-column: 3; grid-row: 1; text-align: right; }
+}
+
+/* Muy bajos: se muestran solo los periodos que caben, en orden */
+@media (max-height: 79.98px) {
+  .tp__item:nth-child(n + 3) { display: none; }
+}
+@media (max-height: 43.98px) {
+  .tp__item:nth-child(n + 2) { display: none; }
+}
