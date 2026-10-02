@@ -7,7 +7,7 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
 |---|---|---|
 | Reloj | `widgets/clock/` | ✅ Listo |
 | Pomodoro | `widgets/pomodoro/` | ✅ Listo |
-| Progreso del tiempo | `widgets/progress/` | Pendiente |
+| Progreso del tiempo | `widgets/time-progress/` | ✅ Listo |
 
 ## Estructura
 
@@ -23,10 +23,14 @@ HTML, CSS y JavaScript puros: sin librerías, sin CDNs, sin conexiones externas,
     │   ├── index.html
     │   ├── clock.css
     │   └── clock.js
-    └── pomodoro/
+    ├── pomodoro/
+    │   ├── index.html
+    │   ├── pomodoro.css
+    │   └── pomodoro.js
+    └── time-progress/
         ├── index.html
-        ├── pomodoro.css
-        └── pomodoro.js
+        ├── time-progress.css
+        └── time-progress.js
 ```
 
 Cada widget nuevo es una carpeta en `widgets/` que reutiliza `shared/`.
@@ -37,7 +41,7 @@ Los widgets usan módulos de JavaScript, así que necesitan un servidor (no bast
 
 ```bash
 python3 -m http.server 8000
-# Abrir http://localhost:8000/widgets/clock/ o http://localhost:8000/widgets/pomodoro/
+# Abrir http://localhost:8000/widgets/clock/, /widgets/pomodoro/ o /widgets/time-progress/
 ```
 
 ## Publicar con GitHub Pages
@@ -105,3 +109,22 @@ Ejemplo — sesiones de 50/10 en modo oscuro:
 ```
 https://<usuario>.github.io/<repositorio>/widgets/pomodoro/?work=50&short=10&theme=dark
 ```
+
+## Progreso del tiempo
+
+Cuánto ha transcurrido del **día**, la **semana** (de lunes a lunes), el **mes** y el **año**:
+porcentaje, barra y, si cabe, el tiempo restante.
+
+- Cada segundo se recalcula desde la hora actual y los límites reales del periodo en hora local:
+  días de 23/25 h por cambio de hora, meses de 28–31 días y años bisiestos incluidos.
+- Se redondea hacia abajo (nunca muestra 100 % antes de tiempo) y siempre está entre 0 y 100 %.
+- Tras perder el foco, suspender el equipo o recargar, muestra al instante el valor correcto.
+- La disposición se adapta al tamaño del embed solo con CSS: en bloques bajos pasa a una línea
+  por periodo, en bloques estrechos quita decimales y, si no caben los cuatro, muestra los primeros.
+
+URL: `https://<usuario>.github.io/<repositorio>/widgets/time-progress/`
+
+| Parámetro | Valores | Por defecto |
+|---|---|---|
+| `theme` | `auto` · `light` · `dark` | `auto` (sigue al sistema) |
+| `bg` | `transparent` · `solid` | `transparent` |
